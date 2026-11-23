@@ -25,4 +25,4 @@ Verificação: compilação com 0 erros e 0 avisos, 30 verificações de navega�
 
 ## Documento de entrega
 
-[TP4 - Projeto de Bloco: documento consolidado em PDF](docs/Gianlucca_Palma_PB_TP4.pdf). Inclui o modelo planejado, os diagramas de sequência da simulação, os cabeçalhos implementados e a justificativa do escopo reduzido.
+[TP4 - Projeto de Bloco: documento consolidado em PDF](docs/Gianlucca_Palma_PB_TP4.pdf). Apresenta a simplificação como mudança de escopo do TP4 e inclui dicionário, diagrama de classes da simulação, diagramas de sequência e cabeçalhos dos métodos implementados.
