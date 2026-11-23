@@ -22,3 +22,7 @@ Esta é a versão reduzida aprovada: não reproduz todos os cenários e serviço
 O projeto completo permanece separado na pasta VR-Cine-CSV. Esta solução não modifica seus dados.
 
 Verificação: compilação com 0 erros e 0 avisos, 30 verificações de navegação e regras, conferência visual em computador e celular. Os testes temporários ficam fora desta solução.
+
+## Documento de entrega
+
+[TP4 - Projeto de Bloco: documento consolidado em PDF](docs/Gianlucca_Palma_PB_TP4.pdf). Inclui o modelo planejado, os diagramas de sequência da simulação, os cabeçalhos implementados e a justificativa do escopo reduzido.
