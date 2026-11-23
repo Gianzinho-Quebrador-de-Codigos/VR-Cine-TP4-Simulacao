@@ -1,0 +1,17 @@
+@page
+@model PedidoModel
+@{ ViewData["Title"] = "Pedidos"; }
+<span class="eyebrow">HISTÓRIAS PARA LEVAR COM VOCÊ</span><h1>Seus <em>pedidos.</em></h1><p class="intro">As compras desta demonstração aparecem aqui. Já deixamos dois pedidos de exemplo para você testar.</p>
+@if (Model.Mensagem != "") { <p class="message" role="status">@Model.Mensagem</p> }
+@foreach (Pedido pedido in DadosSimulacao.Pedidos) {
+<section class="panel spaced"><div class="heading"><div><span class="eyebrow">@pedido.Cinema.Nome</span><h2>Pedido #@pedido.Id</h2></div><span class="badge">@(pedido.Status == 2 ? "Confirmado" : "Cancelado")</span></div>
+<div class="ticket-list">@foreach (Ingresso ingresso in pedido.Ingressos) {
+<article class="ticket"><span class="eyebrow">INGRESSO DEMONSTRATIVO</span><h3>@ingresso.Sessao.Filme.Titulo</h3><p>@ingresso.Sessao.Inicio.ToString("dd/MM HH:mm") · Assento @ingresso.Assento.Codigo · @(ingresso.Tipo == 1 ? "Inteira" : "Meia")</p><b>@ingresso.CodigoQR</b><span class="ticket-status">@(ingresso.Status == 2 ? "Cancelado" : ingresso.Utilizado ? "Entrada registrada" : "Ainda não utilizado")</span>@if (ingresso.NecessidadesVR != "") { <p>Ajustes: @ingresso.NecessidadesVR</p> }</article>
+}</div>
+<div class="summary"><p>Alimentos: @pedido.Alimentos.Count unidade(s) @foreach (ProdutoAlimenticio produto in pedido.Alimentos) { <span>· @produto.Nome</span> }</p><p>@pedido.ConsultarRetirada()</p><p>Desconto: R$ @pedido.ValorDesconto.ToString("F2")</p><h3>Total: R$ @pedido.ValorTotal.ToString("F2")</h3></div>
+@if (pedido.Status == 2) { <form method="post" asp-page-handler="Cancelar"><input type="hidden" name="id" value="@pedido.Id"/><p class="hint">Cancelamento integral demonstrativo, sem prazo comercial configurado.</p><button class="button quiet">Simular cancelamento e reembolso</button></form> } else { <p class="hint">Estorno simulado: R$ @(pedido.Pagamento == null ? "0,00" : pedido.Pagamento.ValorEstornado.ToString("F2"))</p> }
+@foreach (Ingresso ingresso in pedido.Ingressos) { if (pedido.Status == 2 && ingresso.Sessao.EstaEncerrada()) {
+<details><summary>Avaliar esta sessão</summary><form method="post" asp-page-handler="Avaliar"><input type="hidden" name="sessaoId" value="@ingresso.Sessao.Id"/><div class="form-grid"><label>Filme (1 a 5)<input name="notaFilme" type="number" min="1" max="5" required/></label><label>Conforto VR (1 a 5)<input name="notaConforto" type="number" min="1" max="5" required/></label><label>Comentário (opcional)<input name="comentario" maxlength="300"/></label></div><button class="button">Simular avaliação</button></form></details>
+break;
+} }</section>
+}

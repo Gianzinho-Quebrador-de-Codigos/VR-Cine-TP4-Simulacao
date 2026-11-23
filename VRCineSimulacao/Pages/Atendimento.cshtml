@@ -1,0 +1,11 @@
+@page
+@model AtendimentoModel
+@{ ViewData["Title"] = "Atendimento"; }
+<span class="eyebrow">AS MUDANÇAS DO TP4 EM AÇÃO</span><h1>Simples de <em>conferir.</em></h1><p class="intro">Use o pedido 1 e os códigos ING001 e ING002 para começar. Consultar não registra a entrada nem a retirada.</p>
+<div class="two-columns"><section class="panel"><span class="eyebrow">PORTARIA</span><h2>Entrada na sessão</h2><form method="post"><label>Sessão atendida<select asp-for="SessaoId">@foreach (Sessao sessao in DadosSimulacao.Sessoes) { <option value="@sessao.Id">@sessao.Id · @sessao.Filme.Titulo · @sessao.Inicio.ToString("dd/MM HH:mm") · @sessao.Sala.Cinema.Nome</option> }</select></label><label>Código do ingresso<input asp-for="Codigo" required placeholder="Ex.: ING001"/></label><div class="actions"><button class="button quiet" asp-page-handler="ConsultarIngresso">Consultar</button><button class="button" asp-page-handler="ConfirmarEntrada">Confirmar entrada</button></div></form>
+@if (Model.MensagemEntrada != "") { <p class="message" role="status">@Model.MensagemEntrada</p> }
+@if (Model.IngressoEncontrado != null) { <p>Assento @Model.IngressoEncontrado.Assento.Codigo · @(Model.IngressoEncontrado.Tipo == 2 ? "Meia-entrada: confira o comprovante antes de confirmar." : "Inteira")</p> }
+</section><section class="panel"><span class="eyebrow">BALCÃO</span><h2>Retirada dos alimentos</h2><form method="post"><label>Cinema<select asp-for="CinemaId">@foreach (Cinema cinema in DadosSimulacao.Cinemas) { <option value="@cinema.Id">@cinema.Nome</option> }</select></label><label>Número do pedido<input asp-for="NumeroPedido" type="number" min="1" required/></label><div class="actions"><button class="button quiet" asp-page-handler="ConsultarPedido">Consultar</button><button class="button" asp-page-handler="Retirar">Confirmar retirada</button></div></form>
+@if (Model.MensagemRetirada != "") { <p class="message" role="status">@Model.MensagemRetirada</p> }
+@if (Model.PedidoEncontrado != null) { foreach (ProdutoAlimenticio produto in Model.PedidoEncontrado.Alimentos) { <p>1× @produto.Nome</p> } }
+<p class="hint">Todos os alimentos são retirados juntos, uma única vez por pedido.</p></section></div>

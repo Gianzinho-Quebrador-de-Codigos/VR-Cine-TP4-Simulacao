@@ -1,0 +1,18 @@
+@page "/"
+@model CinemaModel
+@{ ViewData["Title"] = "Cinema"; }
+<section class="hero"><div><span class="eyebrow">UMA NOVA FORMA DE VIVER HISTÓRIAS</span><h1>Seu lugar em<br/><em>outro universo.</em></h1><p>Escolha o filme, os assentos e o lanche.<br/>O próximo capítulo é uma simulação sua.</p><a class="button" href="#compra">Começar experiência</a></div><div class="hero-planet" aria-hidden="true"><div></div><span>360°<small>DE IMERSÃO</small></span></div></section>
+<div class="heading"><h2>Em cartaz<span>.</span></h2><p>Dois filmes, infinitas possibilidades.</p></div>
+<div class="two-columns">@foreach (Sessao sessao in DadosSimulacao.Sessoes) { if (!sessao.EstaEncerrada()) {
+<article class="movie"><div class="poster @(sessao.Id == 1 ? "space" : "ocean")" aria-hidden="true"><span>VR EXPERIENCE</span><b>@sessao.Filme.Titulo</b></div><div class="movie-info"><h3>@sessao.Filme.Titulo</h3><p>@sessao.Filme.Sinopse</p><p>@sessao.Sala.Cinema.Nome · @sessao.Inicio.ToString("dd/MM HH:mm") · @sessao.Filme.DuracaoMinutos min</p><a class="button quiet" asp-page="/Cinema" asp-route-sessaoId="@sessao.Id" asp-fragment="compra">Escolher sessão</a></div></article>
+} }</div>
+<section class="panel spaced" id="compra"><span class="eyebrow">SUA EXPERIÊNCIA COMEÇA AQUI</span><h2>Vamos simular uma compra?</h2><p>Pagamento sempre aprovado nesta demonstração. Nenhuma cobrança ou mensagem de e-mail real.</p>
+@if (Model.Mensagem != "") { <p class="message" role="status">@Model.Mensagem</p> }
+@if (Model.SessaoEscolhida == null) { <p>Escolha uma sessão disponível nos filmes acima.</p> } else {
+<p class="session">@Model.SessaoEscolhida.Filme.Titulo · @Model.SessaoEscolhida.Inicio.ToString("dd/MM HH:mm") · @Model.SessaoEscolhida.Sala.Cinema.Nome</p>
+<form method="post"><input type="hidden" asp-for="SessaoId"/><p class="screen">FRENTE DA SALA</p><div class="seats">
+@foreach (Assento assento in DadosSimulacao.Assentos) { if (assento.Sala.Id == Model.SessaoEscolhida.Sala.Id) { bool livre = DadosSimulacao.AssentoDisponivel(Model.SessaoEscolhida, assento);
+<label class="seat"><input type="checkbox" name="Lugares" value="@assento.Id" disabled="@(!livre)"/><span>@assento.Codigo</span></label>
+} }</div><p class="hint center">Escolha um ou mais assentos. Os escuros já estão reservados.</p>
+<div class="form-grid"><label>Categoria<select asp-for="Tipo"><option value="1">Inteira · R$ 40,00</option><option value="2">Meia-entrada · R$ 20,00</option></select></label><label>Ajustes VR (opcional)<input asp-for="Necessidades" placeholder="Ex.: ajuste de altura" maxlength="200"/></label><label>Pipocas · R$ 15,00 cada<input asp-for="Pipocas" type="number" min="0" max="10"/></label><label>Combos · R$ 25,00 cada<input asp-for="Combos" type="number" min="0" max="10"/></label><label>Cupom (opcional)<input asp-for="CodigoCupom" placeholder="Experimente VRCINE10"/></label></div><p class="hint">Equipamento VR fixo em cada assento. A comprovação de meia-entrada seria feita na portaria.</p><button class="button">Simular compra e ver total</button></form>
+}</section>

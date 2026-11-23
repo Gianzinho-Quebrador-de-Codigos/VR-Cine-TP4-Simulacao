@@ -1,0 +1,8 @@
+@page
+@model GerenciaModel
+@{ ViewData["Title"] = "Gerência"; }
+<span class="eyebrow">BASTIDORES DA EXPERIÊNCIA</span><h1>Vamos imaginar <em>a programação?</em></h1><p class="intro">Preencha os exemplos e veja a confirmação. Os objetos são criados apenas para mostrar a mensagem; os cadastros não são guardados.</p>
+@if (Model.Mensagem != "") { <p class="message" role="status">@Model.Mensagem</p> }
+<div class="three-columns"><section class="panel"><h2>Filme</h2><form method="post" asp-page-handler="Filme"><label>Título<input asp-for="Titulo" required maxlength="100"/></label><label>Duração (minutos)<input asp-for="Duracao" type="number" min="1" required/></label><button class="button">Simular cadastro</button></form></section>
+<section class="panel"><h2>Cinema</h2><form method="post" asp-page-handler="Cinema"><label>Nome<input asp-for="Nome" required maxlength="100"/></label><label>Endereço<input asp-for="Endereco" required maxlength="200"/></label><button class="button">Simular cadastro</button></form></section>
+<section class="panel"><h2>Sessão</h2><form method="post" asp-page-handler="Sessao"><label>Início<input asp-for="Inicio" type="datetime-local" required/></label><p class="hint">Exemplo com duração de 90 minutos. Sem verificar conflitos de horário.</p><button class="button">Simular cadastro</button></form></section></div>

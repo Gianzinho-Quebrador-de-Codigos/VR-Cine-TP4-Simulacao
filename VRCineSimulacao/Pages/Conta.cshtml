@@ -1,0 +1,10 @@
+@page
+@model ContaModel
+@{ ViewData["Title"] = "Conta"; }
+<span class="eyebrow">SEU PASSAPORTE PARA O CINEMA</span><h1>Uma conta de <em>faz de conta.</em></h1><p class="intro">Estes formulários apenas mostram o resultado da simulação. Não criam contas, verificam senhas ou enviam e-mails.</p>
+@if (Model.Mensagem != "") { <p class="message" role="status">@Model.Mensagem</p> }
+<div class="three-columns">
+<section class="panel"><h2>Cadastro</h2><form method="post" asp-page-handler="Cadastro"><label>Nome<input asp-for="Nome" required maxlength="100" placeholder="Como você se chama?"/></label><label>E-mail<input asp-for="Email" id="EmailCadastro" type="email" required placeholder="voce@exemplo.com"/></label><button class="button">Simular cadastro</button></form></section>
+<section class="panel"><h2>Login</h2><form method="post" asp-page-handler="Login"><label>E-mail<input asp-for="Email" id="EmailLogin" type="email" required placeholder="voce@exemplo.com"/></label><p class="hint">Não é necessário ter uma conta para usar a demonstração.</p><button class="button">Simular entrada</button></form></section>
+<section class="panel"><h2>Recuperação</h2><form method="post" asp-page-handler="Recuperar"><label>E-mail<input asp-for="Email" id="EmailRecuperacao" type="email" required placeholder="voce@exemplo.com"/></label><p class="hint">Só mostramos a mensagem que seria apresentada ao cliente.</p><button class="button">Simular recuperação</button></form></section>
+</div>
